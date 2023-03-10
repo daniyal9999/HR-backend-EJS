@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+  <div class="container">
+    <br>
+    <div class="row">
+        <div class="col-lg-3 bg-primary text-light rounded-sm">
+            <h1 class="display-4"> <b>Admin Panel</b></h1><br>
+            <ul class="nav flex-column mb-2">
+                <li class="nav-item btn-info">
+                    <a class="nav-link text-light" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item btn-info">
+                    <a class="nav-link text-light" aria-current="page" href="/blogs">Another</a>
+                </li><br>
+                <% if(!user){ %>
+                <li class="nav-item btn-success">
+                    <a class="nav-link text-light " aria-current="page" href="/api/admin/login">Login</a>
+                </li>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <% } %>
+                <% if(user){ %>
+                <li class="nav-item btn-danger">
+                    <a class="nav-link text-light" aria-current="page" href="/api/admin/logout">Logout</a>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+        <div class="col-lg-9">
+            <h1 class="alert-light text-center">Jobs Listings</h1>
+            <!-- Job listings -->
+            <% if(!user){ %>     
+            <br>           
+            <h3 class="container alert-danger text-center">Login to Post Jobs</h3>
+            <% } %>
+            <% if(user){ %>                
+            <a href="jobs/add" class="btn btn-success float-right"> Add new Job</a><br><br>
+            <div class="allblogs">
+                <% if (jobs) { %>
+                <% jobs.forEach(job => { %>
+                <div class="alert alert-secondary">
+                    <br>
+                    <a href="/api/jobs/details/<%= job._id %>">
+                        <h3 ><%= job.title %></h3>
+                    </a>
+                    <p ><%= job.details %></p>
+                    <a class="btn btn-danger" href="/api/jobs/delete/<%= job._id %>" >Delete</a>
+                    <a class="btn btn-secondary" href="/api/jobs/edit/<%= job._id %>" >Edit</a>            
+                </div>
+                <% }) %>
+                <% } else { %>
+                <p>There are no Jobs to display...</p>
+                <% } %>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

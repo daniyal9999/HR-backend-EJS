@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/json2csv"></script>
+</head>
+<body>
+    <!-- details.ejs -->
+      <% if(!user){ %>
+          <h1 class="container">Login to post jobs</h1>
+      <% } %>
+
+      <% if(user){ %>
+        <div class="container mt-5">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="card mb-3 alert alert-success">
+                  <div class="card-body">
+                    <h4 class="card-title text-primary"><u><%= job.title %></u></h4>
+                    <h6 class="card-subtitle mb-2 text-muted"><%= job.details %></h6>
+                  </div>
+                </div>
+                <h2 class="mt-4 mb-4 text-center"> Applicants</h2>
+                <% if(applicants.length == 0){%>
+                    <p class="text-center alert alert-danger">No one applied on this job</p>
+                <% }%>
+                <% applicants.forEach(function(applicant) { %>
+                  <div class="card mb-3 alert alert-secondary">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= applicant.firstName %> <%= applicant.lastName %></h5>
+                      <h6 class="card-subtitle mb-2 text-muted"><%= applicant.email %></h6>
+                      <div class="d-flex justify-content-end">
+                        <!-- <a href="#" class="card-link">View</a> 
+                        <a href="#" class="card-link">Edit</a>
+                        <a href="#" class="card-link text-danger">Delete</a>  -->
+                        <a href="#" class="card-link text-white btn btn-warning">Shortlist</a>
+                      </div>
+                    </div>
+                  </div>
+                <% }); %>
+              </div>
+              <div class="col-md-4">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title"><strong>Job Actions</strong></h5>
+                    <a href="#" class="btn btn-primary btn-block mb-2">Edit Job</a>
+                    <a href="#" class="btn btn-danger btn-block">Delete Job</a>
+                  </div>
+                </div>
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title"> <strong>Total Applicants</strong></h5>
+                    <h1 class="text-center border border-dark"> <%= applicantsCount %></h1>
+                    <!-- <button type="button" onclick={} class="btn btn-success btn-block">Export Applicants</button> -->
+                    <% if(applicants.length !== 0){%>
+                      <button type="button" class="btn btn-success btn-block" id="export-btn" onclick="downloadCsv('applicants.csv', '<%= JSON.stringify(applicants) %>')">Export Applicants</button>
+                  <% }%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+   <% } %>
+
+</body>
+
+	
+	<script>
+		// function to download CSV file
+		function downloadCsv(filename, csvData) {
+    const csv = json2csv.parse(JSON.parse(csvData));
+    console.log(csv)
+		const element = document.createElement("a");
+		element.setAttribute("href", "data:text/csv;charset=utf-8," + encodeURIComponent(csv));
+		element.setAttribute("download", filename);
+		element.style.display = "none";
+		document.body.appendChild(element);
+		element.click();
+		document.body.removeChild(element);
+		}
+
+	</script>
+
+</html>
