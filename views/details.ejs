@@ -35,37 +35,50 @@
                 <% if(applicants.length == 0){%>
                     <p class="text-center alert alert-danger">No one applied on this job</p>
                 <% }%>
+                <% applicants = applicants.reverse() %>
+                <%  const croppedObject = Object.fromEntries(Object.entries(applicants).filter(([key, value]) => key == "firstName" || key == "lastName"|| key == "email"|| key == "city"|| key == "resumeUrl"|| key == "coverletterUrl") ) %>
+              
                 <% applicants.forEach(function(applicant) { %>
                   <div class="card mb-3 alert alert-secondary">
                     <div class="card-body">
                       <h5 class="card-title"><%= applicant.firstName %> <%= applicant.lastName %></h5>
-                      <h6 class="card-subtitle mb-2 text-muted"><%= applicant.email %></h6>
+                      <h6 class="card-subtitle mb-2 text-muted">Email: <%= applicant.email %></h6>
+                      <h6 class="card-subtitle mb-2 text-muted">City:  <%= applicant.city %></h6>
+                      
                       <div class="d-flex justify-content-end">
                         <!-- <a href="#" class="card-link">View</a> 
                         <a href="#" class="card-link">Edit</a>
                         <a href="#" class="card-link text-danger">Delete</a>  -->
-                        <a href="#" class="card-link text-white btn btn-warning">Shortlist</a>
+                        <a href= <%= applicant.resumeUrl %> target="_blank" class="card-link text-white btn btn-success">Resume</a>
+                        <a href= <%= applicant.coverletterUrl %> target="_blank" class="card-link text-white btn btn-success">Cover Letter</a>
                       </div>
                     </div>
                   </div>
                 <% }); %>
               </div>
+              <!-- Job Actions -->
               <div class="col-md-4">
                 <div class="card mb-3">
                   <div class="card-body">
                     <h5 class="card-title"><strong>Job Actions</strong></h5>
-                    <a href="#" class="btn btn-primary btn-block mb-2">Edit Job</a>
-                    <a href="#" class="btn btn-danger btn-block">Delete Job</a>
+                    <a href="/api/jobs/edit/<%= job._id %>" class="btn btn-primary btn-block mb-2">Edit Job</a>
+                    <a href="/api/jobs/delete/<%= job._id %>" class="btn btn-danger btn-block">Delete Job</a>
                   </div>
                 </div>
+                <!-- total applicants -->
                 <div class="card mb-3">
                   <div class="card-body">
                     <h5 class="card-title"> <strong>Total Applicants</strong></h5>
                     <h1 class="text-center border border-dark"> <%= applicantsCount %></h1>
-                    <!-- <button type="button" onclick={} class="btn btn-success btn-block">Export Applicants</button> -->
                     <% if(applicants.length !== 0){%>
-                      <button type="button" class="btn btn-success btn-block" id="export-btn" onclick="downloadCsv('applicants.csv', '<%= JSON.stringify(applicants) %>')">Export Applicants</button>
+                      <button type="button" class="btn btn-success btn-block" id="export-btn" onclick="downloadCsv('<%= job.title %>.csv', '<%= JSON.stringify(applicants) %>')">Export Applicants</button>
                   <% }%>
+                  </div>
+                </div>
+                <!-- back button-->
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <a class="btn btn-secondary btn-block" href="/api/admin">Back</a>
                   </div>
                 </div>
               </div>
@@ -78,7 +91,7 @@
 	
 	<script>
 		// function to download CSV file
-		function downloadCsv(filename, csvData) {
+		function downloadCsv(filename, csvData) { 
     const csv = json2csv.parse(JSON.parse(csvData));
     console.log(csv)
 		const element = document.createElement("a");

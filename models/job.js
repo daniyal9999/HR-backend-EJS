@@ -10,6 +10,18 @@ const jobSchema = new Schema({
     details: {
         type:String,
         required:true
+    },
+    sector: {
+        type:String,
+        required:true
+    },
+    location: {
+        type:String,
+        required:true
+    },
+    salary: {
+        type:String,
+        required:true
     }
 },{ timestamps:true })
 

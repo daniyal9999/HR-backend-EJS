@@ -17,11 +17,13 @@
             <h1 class="display-4"> <b>Admin Panel</b></h1><br>
             <ul class="nav flex-column mb-2">
                 <li class="nav-item btn-info">
-                    <a class="nav-link text-light" aria-current="page" href="/">Home</a>
+                    <a class="nav-link text-light" aria-current="page" href="/api/admin">Home</a>
                 </li>
+                <% if(user){ %>
                 <li class="nav-item btn-info">
-                    <a class="nav-link text-light" aria-current="page" href="/blogs">Another</a>
+                    <a class="nav-link text-light" aria-current="page" href="jobs/add">Add New Job</a>
                 </li><br>
+                <% } %>
                 <% if(!user){ %>
                 <li class="nav-item btn-success">
                     <a class="nav-link text-light " aria-current="page" href="/api/admin/login">Login</a>
@@ -55,15 +57,16 @@
             <a href="jobs/add" class="btn btn-success float-right"> Add new Job</a><br><br>
             <div class="allblogs">
                 <% if (jobs) { %>
-                <% jobs.forEach(job => { %>
-                <div class="alert alert-secondary">
+                <% let alljobs = jobs.reverse() %>
+                <% alljobs.forEach(job => { %>
+                <div class="alert alert-secondary pb-5">
                     <br>
                     <a href="/api/jobs/details/<%= job._id %>">
                         <h3 ><%= job.title %></h3>
                     </a>
-                    <p ><%= job.details %></p>
-                    <a class="btn btn-danger" href="/api/jobs/delete/<%= job._id %>" >Delete</a>
-                    <a class="btn btn-secondary" href="/api/jobs/edit/<%= job._id %>" >Edit</a>            
+                    <!-- <p ><%= job.details %></p> -->
+                    <a class="btn btn-danger float-right" href="/api/jobs/delete/<%= job._id %>" >Delete</a>
+                    <a class="btn btn-secondary float-right" href="/api/jobs/edit/<%= job._id %>" >Edit</a>            
                 </div>
                 <% }) %>
                 <% } else { %>

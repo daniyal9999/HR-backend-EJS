@@ -22,6 +22,14 @@ const applicantSchema = new Schema({
     jobId: {
         type:String,
         required:true
+    },
+    resumeUrl: {
+        type:String,
+        required:true
+    },
+    coverletterUrl: {
+        type:String,
+        required:true
     }
   },{ timestamps:true })
 

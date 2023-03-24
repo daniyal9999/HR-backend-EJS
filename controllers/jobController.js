@@ -33,9 +33,6 @@ const getJob = async (req, res) => {
 
 // create a new job
 const createJob = async (req, res) => {
-  console.log("create job......")
-  let rqst = JSON.parse(JSON.stringify(req.body))
-  console.log(rqst)
   // add to the database
   try {
     let job = new Job(req.body)
@@ -43,7 +40,7 @@ const createJob = async (req, res) => {
     res.status(200).redirect('/api/admin')
     // res.status(200).send('job created!')
   } catch (error) {
-    res.status(400).json({ "error": "cannot create new job" })
+    res.status(400).render('error')
   }
 }
 
