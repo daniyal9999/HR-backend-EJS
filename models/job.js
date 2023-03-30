@@ -11,6 +11,10 @@ const jobSchema = new Schema({
         type:String,
         required:true
     },
+    requirements: {
+        type:String,
+        required:true
+    },
     sector: {
         type:String,
         required:true
