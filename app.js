@@ -44,7 +44,7 @@ app.use('/api/admin',adminRoutes)
 //Connecting to mongo
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true,useUnifiedTopology: true})
 .then(()=>{
-    app.listen(process.env.PORT,()=>{
+    app.listen(3000,()=>{
         console.log("listening on 4000")
     })
 })
